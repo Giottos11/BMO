@@ -1,0 +1,12 @@
+<svg width="1024" height="600" viewBox="0 0 1024 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1024" height="600" fill="#D7FACD"/>
+<path d="M492.373 393.645C499.919 389.743 508.926 388.994 512.487 389.107C516.047 388.994 525.054 389.743 532.601 393.645C536.485 395.422 546.028 397.91 553.13 393.645C560.233 389.38 560.621 381.129 559.927 377.537C558.587 370.768 547.221 357.231 512.487 357.231C477.752 357.231 466.387 370.768 465.046 377.537C464.352 381.129 464.741 389.38 471.843 393.645C478.945 397.91 488.489 395.422 492.373 393.645Z" fill="#188C3D" stroke="black" stroke-width="8" stroke-linecap="round"/>
+<path d="M132 144L281.373 170.769C288.509 171.692 303.754 171.138 307.647 161.538" stroke="black" stroke-width="11" stroke-linecap="round"/>
+<path d="M236.897 290.586C243.768 287.305 260.573 277.616 272.814 265.106" stroke="black" stroke-width="4" stroke-linecap="round"/>
+<path d="M321.757 176.287C324.795 174.453 331.237 169.603 332.699 164.876" stroke="black" stroke-width="4" stroke-linecap="round"/>
+<path d="M892 144L742.631 170.769C735.495 171.692 720.25 171.138 716.358 161.538" stroke="black" stroke-width="11" stroke-linecap="round"/>
+<path d="M787.106 290.584C780.234 287.304 763.43 277.615 751.189 265.105" stroke="black" stroke-width="4" stroke-linecap="round"/>
+<path d="M702.248 176.287C699.21 174.453 692.768 169.603 691.306 164.876" stroke="black" stroke-width="4" stroke-linecap="round"/>
+<ellipse cx="233" cy="218" rx="35" ry="40" fill="black"/>
+<ellipse cx="792" cy="218" rx="35" ry="40" fill="black"/>
+</svg>

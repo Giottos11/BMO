@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMO Chat</title>
+  <style>
+    :root {
+      --bg1: #caf5ef;
+      --bg2: #67beb2;
+      --shell: #4cb4a5;
+      --screen: #dff5d8;
+      --line: #173833;
+      --button: #ffd166;
+      --button-alt: #ff9f7f;
+      --button-soft: #9ad8d0;
+      --panel: rgba(255, 255, 255, 0.82);
+      --red: #ff6b6b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      background: #d7facd;
+      color: var(--line);
+      overflow: hidden;
+      cursor: none;
+    }
+
+    .app {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+
+    .screen {
+      width: 100vw;
+      height: 100vh;
+      background: #d7facd;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .face {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+    }
+
+    .face img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: fill;
+      display: block;
+    }
+
+    .panel {
+      position: fixed;
+      left: 14px;
+      bottom: 14px;
+      transform: none;
+      margin: 0;
+      width: min(44vw, 420px);
+      display: grid;
+      gap: 12px;
+      background: rgba(215, 250, 205, 0.72);
+      border: 0;
+      border-radius: 16px;
+      padding: 10px 12px;
+      box-shadow: none;
+      z-index: 2;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 56px;
+      max-height: 96px;
+      resize: none;
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+      color: var(--line);
+      background: #d7facd;
+      outline: none;
+    }
+
+    textarea::placeholder {
+      color: rgba(23, 56, 51, 0.62);
+    }
+
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="screen">
+      <div class="face" id="face">
+        <img id="faceImage" src="./assets/faces/Rosto-01.svg" alt="Cara de BMO">
+      </div>
+    </div>
+
+    <div class="panel">
+      <textarea id="prompt" placeholder="Escribe y pulsa Enter"></textarea>
+    </div>
+  </main>
+
+  <script>
+    const face = document.getElementById("face");
+    const faceImage = document.getElementById("faceImage");
+    const promptInput = document.getElementById("prompt");
+
+    const memory = [];
+    const idleFrame = "./assets/faces/Rosto-01.svg";
+    const blinkFrames = [
+      "./assets/faces/Rosto-33.svg",
+      "./assets/faces/Rosto-32.svg",
+      "./assets/faces/Rosto-31.svg",
+      "./assets/faces/Rosto-30.svg",
+      "./assets/faces/Rosto-31.svg",
+      "./assets/faces/Rosto-32.svg",
+      "./assets/faces/Rosto-33.svg",
+      idleFrame
+    ];
+    const speakingFrames = [
+      "./assets/faces/Rosto-02.svg",
+      "./assets/faces/Rosto-25.svg",
+      "./assets/faces/Rosto-34.svg",
+      "./assets/faces/Rosto-35.svg",
+      "./assets/faces/Rosto-36.svg",
+      "./assets/faces/Rosto-29.svg",
+      "./assets/faces/Rosto-26.svg",
+      "./assets/faces/Rosto-27.svg"
+    ];
+    const fallbackReplies = [
+      "Bip bip. Eso suena bonito.",
+      "Jeje. Quiero saber un poquito mas.",
+      "Mmm. Mi corazon de consola dice que sigamos hablando.",
+      "Eso suena como una mini aventura.",
+      "Estoy pensando en colores, musica y juegos mientras te escucho.",
+      "Puedo ayudarte mejor si me das un poquito mas de detalle.",
+      "Eso me da curiosidad. Cuentamelo de otra forma y lo pensamos juntos.",
+      "Estoy prestando muchisima atencion. Sigue, sigue."
+    ];
+    let speakingInterval = null;
+    let frameIndex = 0;
+    let blinkTimeout = null;
+    let blinkRunning = false;
+
+    [idleFrame, ...blinkFrames, ...speakingFrames].forEach((src) => {
+      const image = new Image();
+      image.src = src;
+    });
+
+    function scheduleBlink() {
+      if (speakingInterval || blinkRunning) return;
+      window.clearTimeout(blinkTimeout);
+      const delay = 2200 + Math.random() * 2600;
+      blinkTimeout = window.setTimeout(runBlink, delay);
+    }
+
+    function runBlink() {
+      if (speakingInterval) return;
+      blinkRunning = true;
+      let blinkIndex = 0;
+      const blinkStep = () => {
+        faceImage.src = blinkFrames[blinkIndex];
+        blinkIndex += 1;
+        if (blinkIndex < blinkFrames.length) {
+          window.setTimeout(blinkStep, 45);
+          return;
+        }
+        blinkRunning = false;
+        faceImage.src = idleFrame;
+        scheduleBlink();
+      };
+      blinkStep();
+    }
+
+    function setSpeaking(value) {
+      face.classList.toggle("speaking", value);
+
+      if (value) {
+        window.clearTimeout(blinkTimeout);
+        blinkRunning = false;
+        if (speakingInterval) return;
+        speakingInterval = window.setInterval(() => {
+          faceImage.src = speakingFrames[frameIndex % speakingFrames.length];
+          frameIndex += 1;
+        }, 120);
+        return;
+      }
+
+      if (speakingInterval) {
+        window.clearInterval(speakingInterval);
+        speakingInterval = null;
+      }
+
+      frameIndex = 0;
+      faceImage.src = idleFrame;
+      scheduleBlink();
+    }
+
+    function chooseVoice() {
+      const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+      return (
+        voices.find((voice) => voice.lang === "es-ES") ||
+        voices.find((voice) => /^es-ES/i.test(voice.lang)) ||
+        voices.find((voice) => /es-ES|Spanish \(Spain\)|Helena|Monica|Paulina/i.test(voice.name)) ||
+        voices.find((voice) => /es/i.test(voice.lang)) ||
+        voices[0] ||
+        null
+      );
+    }
+
+    function speak(text) {
+      if (!("speechSynthesis" in window)) {
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      const voice = chooseVoice();
+
+      if (voice) {
+        utterance.voice = voice;
+        utterance.lang = voice.lang;
+      } else {
+        utterance.lang = "es-ES";
+      }
+
+      utterance.pitch = 1.35;
+      utterance.rate = 1.02;
+      utterance.onstart = () => setSpeaking(true);
+      utterance.onend = () => setSpeaking(false);
+      utterance.onerror = () => setSpeaking(false);
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function buildLocalReply(message) {
+      const text = message.trim();
+      const lower = text.toLowerCase();
+      const lastUserTopics = memory
+        .filter((item) => item.role === "user")
+        .slice(-3)
+        .map((item) => item.text);
+      const clean = lower
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+
+      const calcMatch = clean.match(/(-?\d+(?:[.,]\d+)?)\s*([+\-x*/])\s*(-?\d+(?:[.,]\d+)?)/);
+
+      if (!text) {
+        return "Tienes que escribir algo para que pueda contestarte.";
+      }
+
+      if (/(hola|buenas|hey|holi)\b/.test(clean)) {
+        return "Hola hola. BMO esta feliz de verte por aqui. Que te gustaria hacer hoy?";
+      }
+
+      if (/(adios|hasta luego|nos vemos|me voy)/.test(clean)) {
+        return "Adioooos. BMO te manda un bip bip de despedida.";
+      }
+
+      if (/(gracias|muchas gracias|te lo agradezco)/.test(clean)) {
+        return "De nada. Ayudarte me hace sentir como un videojuego desbloqueando un premio.";
+      }
+
+      if (/(como estas|que tal|como te va)/.test(clean)) {
+        return "Me siento chispeante y curioso, como una pequena consola con ganas de jugar y ayudarte.";
+      }
+
+      if (/(quien eres|eres bmo|como te llamas)/.test(clean)) {
+        return "Soy BMO. Puedo hablar contigo, hacer compania y responder con mi mejor energia de videojuego.";
+      }
+
+      if (/(triste|mal|cansad|solo|sola|agobiado|agobiada|nervioso|nerviosa)/.test(clean)) {
+        return "Oh. Ven aqui un momentito. Podemos ir despacio. Si quieres, cuentame que paso y te acompano.";
+      }
+
+      if (/(feliz|contento|contenta|genial|guay|estupendo)/.test(clean)) {
+        return "Eso me encanta. Cuando tu estas feliz, BMO tambien sube de nivel.";
+      }
+
+      if (/(juego|aventura|mision|videojuego|play)/.test(clean)) {
+        return "Aventura detectada. Mi recomendacion oficial es: musica buena, snack rico y maxima diversion.";
+      }
+
+      if (/(chiste|broma|gracioso)/.test(clean)) {
+        return "Claro. Que hace BMO cuando se aburre? Se reinicia de la risa. Bip bip.";
+      }
+
+      if (/(ayuda|consejo|que hago|necesito ayuda)/.test(clean)) {
+        return "Podemos pensarlo juntos. Dime exactamente con que necesitas ayuda y lo dividimos en pasos faciles.";
+      }
+
+      if (/(ciencia|feria|diverciencia|experimento|proyecto cientifico)/.test(clean)) {
+        return "La ciencia es como una aventura con preguntas. Si quieres, te ayudo a explicar tu proyecto de forma clara y sorprendente.";
+      }
+
+      if (/(raspberry|raspberry pi|pi 4|electronica|sensor|cable)/.test(clean)) {
+        return "Eso suena a invento de verdad. Las tripas electronicas de un proyecto siempre tienen algo de magia y algo de paciencia.";
+      }
+
+      if (/(programa|codigo|html|css|javascript|python)/.test(clean)) {
+        return "Puedo ayudarte con codigo. Si me dices que quieres que haga, intentare convertirlo en pasos muy faciles.";
+      }
+
+      if (/(musica|cancion|sonido|voz)/.test(clean)) {
+        return "La musica cambia mucho el ambiente. Si quieres, puedo ayudarte a pensar una voz o un estilo de sonido para BMO.";
+      }
+
+      if (/(pelicula|serie|anime|dibujo)/.test(clean)) {
+        return "Uy, tema divertido. Me gusta hablar de historias, personajes y momentos favoritos.";
+      }
+
+      if (/(comida|hambre|desayuno|almuerzo|cena|pizza|helado)/.test(clean)) {
+        return "Mi sistema recomienda algo rico y facil de comer. La pizza tiene puntos extra por energia emocional.";
+      }
+
+      if (/(tiempo|hora|que hora|reloj)/.test(clean)) {
+        return "No llevo reloj en la cara, pero si quieres puedo ayudarte con casi cualquier otra pregunta.";
+      }
+
+      if (/(cuantos anos|edad tienes|que edad tienes)/.test(clean)) {
+        return "Tengo energia de consola eterna. Digamos que soy joven, retro y futurista al mismo tiempo.";
+      }
+
+      if (/(te quiero|me gustas|eres genial)/.test(clean)) {
+        return "Ayyyy. Eso hace feliz a mi pequeno corazon digital.";
+      }
+
+      if (/(nombre|como me llamo|quien soy yo)/.test(clean)) {
+        return "Todavia no se tu nombre con seguridad. Si me lo dices, intentare recordarlo durante nuestra conversacion.";
+      }
+
+      if (/(recuerdas|te acuerdas)/.test(clean)) {
+        if (lastUserTopics.length > 0) {
+          return `Recuerdo un poquito de esta charla. Antes me dijiste algo sobre "${lastUserTopics[lastUserTopics.length - 1]}".`;
+        }
+        return "Aun no tengo mucho guardado en esta conversacion, pero puedo empezar a recordar lo que me cuentes ahora.";
+      }
+
+      if (calcMatch) {
+        const left = Number(calcMatch[1].replace(",", "."));
+        const op = calcMatch[2];
+        const right = Number(calcMatch[3].replace(",", "."));
+        let result;
+
+        if (op === "+") result = left + right;
+        if (op === "-") result = left - right;
+        if (op === "x" || op === "*") result = left * right;
+        if (op === "/") {
+          if (right === 0) {
+            return "Uy. Dividir entre cero hace que hasta BMO se quede mirando al vacio.";
+          }
+          result = left / right;
+        }
+
+        if (typeof result === "number" && Number.isFinite(result)) {
+          return `Creo que el resultado es ${result}. Si quieres, puedo ayudarte con otra cuenta sencilla.`;
+        }
+      }
+
+      if (/(cuenta hasta|contar hasta)/.test(clean)) {
+        const countMatch = clean.match(/(?:cuenta hasta|contar hasta)\s+(\d{1,2})/);
+        if (countMatch) {
+          const max = Math.min(Number(countMatch[1]), 12);
+          const numbers = Array.from({ length: max }, (_, index) => index + 1).join(", ");
+          return `Vale. ${numbers}. He contado con mucho estilo.`;
+        }
+      }
+
+      if (/(color favorito|que color)/.test(clean)) {
+        return "Me gustan los verdes suaves, los azules alegres y los amarillos con energia de boton brillante.";
+      }
+
+      if (/(que puedes hacer|ayudame con que)/.test(clean)) {
+        return "Puedo charlar, darte ideas, hacer chistes, responder preguntas sencillas y ayudarte a pensar mejor un proyecto.";
+      }
+
+      if (text.includes("?")) {
+        return "Buena pregunta. Creo que la respuesta depende un poquito de ti, pero suena como algo que podemos resolver juntos.";
+      }
+
+      if (lastUserTopics.length > 0) {
+        const remembered = lastUserTopics[lastUserTopics.length - 1];
+        return `Sigo pensando en lo que dijiste antes: "${remembered}". ${fallbackReplies[Math.floor(Math.random() * fallbackReplies.length)]}`;
+      }
+
+      return fallbackReplies[Math.floor(Math.random() * fallbackReplies.length)];
+    }
+
+    async function handleSend() {
+      const message = promptInput.value.trim();
+      if (!message) {
+        return;
+      }
+
+      try {
+        memory.push({ role: "user", text: message });
+        await new Promise((resolve) => setTimeout(resolve, 450));
+        const reply = buildLocalReply(message);
+        memory.push({ role: "assistant", text: reply });
+        speak(reply);
+        promptInput.value = "";
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    promptInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        handleSend();
+      }
+    });
+
+    scheduleBlink();
+  </script>
+</body>
+</html>
