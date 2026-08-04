@@ -43,3 +43,115 @@ This project was created mainly to:
 ## 📌 Disclaimer
 
 This is a **fan-made educational project** inspired by **BMO** from *Adventure Time*. All rights to the original character belong to their respective owners.
+
+# 🛠️ Build Process
+
+Although this repository focuses on the web recreation of BMO, I also built a physical version as part of the project. This helped me better understand the character's proportions and design while improving my crafting and prototyping skills.
+
+## 1. Materials
+
+The project started with high-density foam boards, chosen because they are lightweight, inexpensive and easy to cut.
+
+<p align="center">
+  <img src="./images/process/01-materials.jpg" width="650">
+</p>
+
+---
+
+## 2. Planning the Layout
+
+Before making any cuts, I created a full-scale paper template with the screen, buttons and side logo to ensure every measurement was correct.
+
+<p align="center">
+  <img src="./images/process/02-template.jpg" width="650">
+</p>
+
+---
+
+## 3. Cutting and Assembly
+
+Using the template as a guide, I cut each panel and assembled the main body of the console.
+
+<p align="center">
+  <img src="./images/process/03-cutting.jpg" width="650">
+</p>
+
+---
+
+## 4. Main Structure Completed
+
+Once every panel was glued together, the basic shape of BMO was finished.
+
+<p align="center">
+  <img src="./images/process/04-body.jpg" width="650">
+</p>
+
+---
+
+## 5. Creating the Buttons
+
+Each controller button was cut individually from foam before being painted.
+
+<p align="center">
+  <img src="./images/process/05-buttons.jpg" width="650">
+</p>
+
+---
+
+## 6. Painting
+
+After sanding and preparing the pieces, every button received its corresponding color.
+
+<p align="center">
+  <img src="./images/process/06-painted-buttons.jpg" width="650">
+</p>
+
+---
+
+## 7. Final Assembly
+
+The screen, painted buttons and decorative details were attached to the body.
+
+<p align="center">
+  <img src="./images/process/07-front.jpg" width="650">
+</p>
+
+---
+
+## 8. Rear Panel
+
+The back of the console was finished with the characteristic ventilation slots.
+
+<p align="center">
+  <img src="./images/process/08-back.jpg" width="650">
+</p>
+
+---
+
+## 9. Bottom Cover
+
+The bottom panel was painted and fitted to complete the enclosure.
+
+<p align="center">
+  <img src="./images/process/09-bottom.jpg" width="500">
+</p>
+
+---
+
+## 10. Designing BMO's Expressions
+
+While the physical model was being built, I recreated BMO's facial expressions in Figma. Every expression was designed manually before being implemented in the web version.
+
+<p align="center">
+  <img src="./images/process/10-figma.jpg" width="650">
+</p>
+
+---
+
+## 11. Finished Build
+
+The completed physical model served as both a reference and a companion piece for the web recreation.
+
+<p align="center">
+  <img src="./images/process/11-final.jpg" width="650">
+</p>
