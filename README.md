@@ -50,10 +50,10 @@ Although this repository focuses on the web recreation of BMO, I also built a ph
 
 ## 1. Materials
 
-The project started with high-density foam boards, chosen because they are lightweight, inexpensive and easy to cut.
+The project started with Expanded Polystyrene foam boards, chosen because they are lightweight, inexpensive and easy to cut.
 
 <p align="center">
-  <img src="./images/process/01-materials.jpg" width="650">
+  <img src="./images_process/01-materials.jpg" width="650">
 </p>
 
 ---
@@ -63,7 +63,7 @@ The project started with high-density foam boards, chosen because they are light
 Before making any cuts, I created a full-scale paper template with the screen, buttons and side logo to ensure every measurement was correct.
 
 <p align="center">
-  <img src="./images/process/02-template.jpg" width="650">
+  <img src="./images_process/02-template.jpg" width="650">
 </p>
 
 ---
@@ -73,7 +73,7 @@ Before making any cuts, I created a full-scale paper template with the screen, b
 Using the template as a guide, I cut each panel and assembled the main body of the console.
 
 <p align="center">
-  <img src="./images/process/03-cutting.jpg" width="650">
+  <img src="./images_process/03-cutting.jpg" width="650">
 </p>
 
 ---
@@ -83,7 +83,7 @@ Using the template as a guide, I cut each panel and assembled the main body of t
 Once every panel was glued together, the basic shape of BMO was finished.
 
 <p align="center">
-  <img src="./images/process/04-body.jpg" width="650">
+  <img src="./images_process/04-body.jpg" width="650">
 </p>
 
 ---
@@ -93,7 +93,7 @@ Once every panel was glued together, the basic shape of BMO was finished.
 Each controller button was cut individually from foam before being painted.
 
 <p align="center">
-  <img src="./images/process/05-buttons.jpg" width="650">
+  <img src="./images_process/05-buttons.jpg" width="650">
 </p>
 
 ---
@@ -103,7 +103,7 @@ Each controller button was cut individually from foam before being painted.
 After sanding and preparing the pieces, every button received its corresponding color.
 
 <p align="center">
-  <img src="./images/process/06-painted-buttons.jpg" width="650">
+  <img src="./images_process/06-painted-buttons.jpg" width="650">
 </p>
 
 ---
@@ -113,7 +113,7 @@ After sanding and preparing the pieces, every button received its corresponding 
 The screen, painted buttons and decorative details were attached to the body.
 
 <p align="center">
-  <img src="./images/process/07-front.jpg" width="650">
+  <img src="./images_process/07-front.jpg" width="650">
 </p>
 
 ---
@@ -123,35 +123,25 @@ The screen, painted buttons and decorative details were attached to the body.
 The back of the console was finished with the characteristic ventilation slots.
 
 <p align="center">
-  <img src="./images/process/08-back.jpg" width="650">
+  <img src="./images_process/08-back.jpg" width="650">
 </p>
 
 ---
 
-## 9. Bottom Cover
-
-The bottom panel was painted and fitted to complete the enclosure.
-
-<p align="center">
-  <img src="./images/process/09-bottom.jpg" width="500">
-</p>
-
----
-
-## 10. Designing BMO's Expressions
+## 9. Designing BMO's Expressions
 
 While the physical model was being built, I recreated BMO's facial expressions in Figma. Every expression was designed manually before being implemented in the web version.
 
 <p align="center">
-  <img src="./images/process/10-figma.jpg" width="650">
+  <img src="./images_process/9-figma.jpg" width="650">
 </p>
 
 ---
 
-## 11. Finished Build
+## 10. Finished Build
 
 The completed physical model served as both a reference and a companion piece for the web recreation.
 
 <p align="center">
-  <img src="./images/process/11-final.jpg" width="650">
+  <img src="./images_process/10-final.jpg" width="650">
 </p>
